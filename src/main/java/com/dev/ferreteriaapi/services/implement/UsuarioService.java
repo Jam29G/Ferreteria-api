@@ -8,25 +8,50 @@ import com.dev.ferreteriaapi.services.interfaces.IUsuarioService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UsuarioService implements IUsuarioService {
+public class UsuarioService implements IUsuarioService, UserDetailsService {
 
     private final UsuarioRepo usuarioRepo;
 
     private final RolRepo rolRepo;
 
+    private final BCryptPasswordEncoder passwordEncoder;
+
     //Metodo que sirve para configurar spring security la forma en que
     //debe encontrar los usuarios
     //TODO: realizar el metodo userDetail
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuario usuario = usuarioRepo.findByUsername(username);
+
+        if(usuario == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario " + username + " no existe");
+
+        //Obtener los roles
+        List<GrantedAuthority> authorities = usuario.getRoles()
+                .stream()
+                .map(rol -> new SimpleGrantedAuthority(rol.getNombre() ))
+                .peek(authority -> log.info("Rol: " + authority.getAuthority() ))
+                .collect(Collectors.toList());
+
+        return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEstado(), true, true, true, authorities);
+    }
 
     @Override
     public Usuario saveUsuario(Usuario usuario) {
