@@ -36,7 +36,6 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
 
     //Metodo que sirve para configurar spring security la forma en que
     //debe encontrar los usuarios
-    //TODO: realizar el metodo userDetail
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Usuario usuario = usuarioRepo.findByUsername(username);
@@ -54,9 +53,26 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     }
 
     @Override
+    public List<Usuario> getUsuarios(Boolean estado) {
+        log.info("Buscando todos los usuarios");
+        return usuarioRepo.findByEstado(estado);
+    }
+
+    @Override
+    public List<Rol> getRoles() {
+        log.info("Buscando todos los roles");
+        return rolRepo.findAll();
+    }
+
+    @Override
     public Usuario saveUsuario(Usuario usuario) {
         log.info("Guardando un nuevo usuario: {} en la DB", usuario.getUsername());
         return usuarioRepo.save(usuario);
+    }
+
+    @Override
+    public Usuario findUsuarioById(Long id) {
+        return usuarioRepo.findById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe") );
     }
 
     @Override
@@ -102,12 +118,6 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     @Override
     public Boolean rolExist(String rolName) {
         return usuarioRepo.countByUsername(rolName) > 0;
-    }
-
-    @Override
-    public List<Usuario> getUsuarios() {
-        log.info("Buscando todos los usuarios");
-        return usuarioRepo.findAll();
     }
 
 

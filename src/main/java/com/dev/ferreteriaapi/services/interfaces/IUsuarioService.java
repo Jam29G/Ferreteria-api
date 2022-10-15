@@ -10,7 +10,9 @@ public interface IUsuarioService {
     Rol saveRol(Rol rol);
     void addRolToUsuario(String username, String rolName);
     Usuario getUsuario(String username);
+    Usuario findUsuarioById(Long id);
     Boolean usuarioExist(String username);
     Boolean rolExist(String username);
-    List<Usuario> getUsuarios();
+    List<Usuario> getUsuarios(Boolean estado);
+    List<Rol> getRoles();
 }

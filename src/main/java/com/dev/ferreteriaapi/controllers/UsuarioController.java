@@ -23,8 +23,29 @@ public class UsuarioController {
 
     @Secured({"ROLE_GERENTE"})
     @GetMapping()
-    public ResponseEntity<List<Usuario>> getUsuarios() {
-        return ResponseEntity.ok().body(usuarioService.getUsuarios());
+    public ResponseEntity<List<Usuario>> getUsuarios(@RequestParam(name = "estado") Boolean estado) {
+        return ResponseEntity.ok().body(usuarioService.getUsuarios(estado));
+    }
+
+    @Secured({"ROLE_GERENTE"})
+    @GetMapping("/roles")
+    public ResponseEntity<List<Rol>> getRoles() {
+        return ResponseEntity.ok().body(usuarioService.getRoles());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Usuario> getUsuario(@PathVariable("id") Long id ) {
+        return new ResponseEntity<>(usuarioService.findUsuarioById(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<Usuario> getUsuarioByUsername(@PathVariable("username") String username ) {
+        return new ResponseEntity<>(usuarioService.getUsuario(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/exist/{username}")
+    public ResponseEntity<Boolean> usuarioExist(@PathVariable("username") String username ) {
+        return new ResponseEntity<>(usuarioService.usuarioExist(username), HttpStatus.OK);
     }
 
     @PostMapping()
