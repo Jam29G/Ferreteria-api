@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -20,6 +21,7 @@ import java.util.List;
 public class UsuarioController {
 
     private final IUsuarioService usuarioService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Secured({"ROLE_GERENTE"})
     @GetMapping()
@@ -33,7 +35,7 @@ public class UsuarioController {
         return ResponseEntity.ok().body(usuarioService.getRoles());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<Usuario> getUsuario(@PathVariable("id") Long id ) {
         return new ResponseEntity<>(usuarioService.findUsuarioById(id), HttpStatus.OK);
     }
@@ -55,7 +57,14 @@ public class UsuarioController {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "El usuario con el username: " + usuario.getUsername() + "ya existe");
         }
 
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+
         return  new ResponseEntity<>(usuarioService.saveUsuario(usuario), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario, @PathVariable("id") Long id) {
+        return new ResponseEntity<Usuario>(usuarioService.updateUsuario(usuario, id), HttpStatus.OK);
     }
 
     @PostMapping(value = "/roles")

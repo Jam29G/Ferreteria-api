@@ -82,8 +82,22 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     }
 
     @Override
-    public void addRolToUsuario(String username, String rolName) {
+    public Usuario updateUsuario(Usuario usuario, Long id) {
+        log.info("Actualizando un nuevo usuario: {} en la DB", usuario.getNombre());
+        Usuario updateUsuario = findUsuarioById(id);
 
+        if(!usuario.getPassword().isEmpty()) {
+            updateUsuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
+
+        updateUsuario.setRoles(usuario.getRoles());
+
+        return usuarioRepo.save(updateUsuario);
+    }
+
+    @Override
+    public void addRolToUsuario(String username, String rolName) {
+        log.info("Agregando un nuevo rol al usuario");
         Usuario usuario = usuarioRepo.findByUsername(username);
         if(usuario == null) {
             log.info("El usuario con username: {} no existe", username );
@@ -103,6 +117,7 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
 
     @Override
     public Usuario getUsuario(String username) {
+        log.info("Obteniendo el usuario: {} de la DB ", username);
         Usuario usuario = usuarioRepo.findByUsername(username);
         log.info("Buscando usuario: {}", usuario.getUsername());
         if(usuario.getUsername() == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "El usuario no existe");
@@ -112,11 +127,13 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
 
     @Override
     public Boolean usuarioExist(String username) {
+        log.info("Comprobando si el usuario: {} existe en la DB ", username);
         return usuarioRepo.countByUsername(username) > 0;
     }
 
     @Override
     public Boolean rolExist(String rolName) {
+        log.info("Comprobando si el rol: {} existe en la DB ", rolName);
         return usuarioRepo.countByUsername(rolName) > 0;
     }
 
