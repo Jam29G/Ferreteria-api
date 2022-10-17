@@ -19,11 +19,13 @@ public class Caja {
     private Long id;
     @Column(name = "nombre", nullable = false, length = 60)
     private String nombre;
+    @Column(name = "saldo", nullable = false, precision = 3)
+    private Double saldo;
     @Column(name = "saldo_inic", nullable = false, precision = 3)
     private Double saldoInic;
-    @Column(name = "saldo_final", nullable = false, precision = 3)
+    @Column(name = "saldo_final", precision = 3)
     private Double saldoFinal;
-    @Column(name = "saldo_ingr", nullable = false, precision = 3)
+    @Column(name = "saldo_ingr", precision = 3)
     private Double saldoIngr;
     @Column(name = "estado", nullable = false)
     private Boolean estado;
