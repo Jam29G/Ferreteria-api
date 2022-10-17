@@ -65,6 +65,16 @@ public class UsuarioService implements IUsuarioService, UserDetailsService {
     }
 
     @Override
+    public Usuario changeState(Long id, Boolean estado) {
+        log.info("Cambiando estado de usuario");
+        Usuario usuario = findUsuarioById(id);
+
+        usuario.setEstado(estado);
+
+        return usuarioRepo.save(usuario);
+    }
+
+    @Override
     public Usuario saveUsuario(Usuario usuario) {
         log.info("Guardando un nuevo usuario: {} en la DB", usuario.getUsername());
         return usuarioRepo.save(usuario);

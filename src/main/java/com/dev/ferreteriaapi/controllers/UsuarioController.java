@@ -67,6 +67,11 @@ public class UsuarioController {
         return new ResponseEntity<Usuario>(usuarioService.updateUsuario(usuario, id), HttpStatus.OK);
     }
 
+    @PutMapping("/changeState/{id}")
+    public ResponseEntity<Usuario> changeState(@PathVariable("id") Long id, @RequestParam("state") Boolean estado )  {
+        return new ResponseEntity<>(usuarioService.changeState(id, estado), HttpStatus.OK);
+    }
+
     @PostMapping(value = "/roles")
     public ResponseEntity<Rol> saveRol(@RequestBody Rol rol) {
 

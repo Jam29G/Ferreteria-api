@@ -16,4 +16,5 @@ public interface IUsuarioService {
     Boolean rolExist(String username);
     List<Usuario> getUsuarios(Boolean estado);
     List<Rol> getRoles();
+    Usuario changeState(Long id, Boolean estado);
 }
