@@ -32,7 +32,7 @@ public class MovimCaja {
     private Caja caja;
 
     @ManyToOne()
-    @JoinColumn(name = "venta_id")
+    @JoinColumn(name = "venta_id", nullable = true)
     private Venta venta;
 
 }

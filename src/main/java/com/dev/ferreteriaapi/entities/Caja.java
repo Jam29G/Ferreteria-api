@@ -33,8 +33,8 @@ public class Caja {
     private LocalDateTime fechaApertura;
     @Column(name = "fecha_cierre")
     private LocalDateTime fechaCierre;
-    @Column(name = "aprobacion")
-    private Boolean aprobacion;
+    @Column(name = "aprobacion", length = 1, nullable = false)
+    private String aprobacion;
 
     @ManyToOne()
     @JoinColumn(name = "usuario_id", nullable = false)
