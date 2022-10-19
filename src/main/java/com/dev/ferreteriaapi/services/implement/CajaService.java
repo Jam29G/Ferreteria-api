@@ -13,7 +13,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -79,7 +81,9 @@ public class CajaService implements ICajaService {
     }
 
     @Override
-    public Caja emitirGasto(Caja caja, Double monto, String motivo) {
+    public Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo) {
+
+        Map<String, Object> response = new HashMap<>();
 
         Caja cajaUpdate = this.getCajaById(caja.getId());
 
@@ -101,14 +105,16 @@ public class CajaService implements ICajaService {
         newMovimiento.setFecha(LocalDateTime.now());
         newMovimiento.setCaja(cajaUpdate);
 
-        movimCajaRepo.save(newMovimiento);
-
-        return cajaRepo.save(cajaUpdate);
+        response.put("movimCaja", movimCajaRepo.save(newMovimiento));
+        response.put("caja", cajaRepo.save(cajaUpdate));
+        return response;
 
     }
 
     @Override
-    public Caja abonarCaja(Caja caja, Double monto, String motivo) {
+    public Map<String, Object> abonarCaja(Caja caja, Double monto, String motivo) {
+
+        Map<String, Object> response = new HashMap<>();
 
         Caja cajaUpdate = this.getCajaById(caja.getId());
 
@@ -127,19 +133,16 @@ public class CajaService implements ICajaService {
         newMovimiento.setFecha(LocalDateTime.now());
         newMovimiento.setCaja(cajaUpdate);
 
-        movimCajaRepo.save(newMovimiento);
+        response.put("movimCaja", movimCajaRepo.save(newMovimiento));
+        response.put("caja", cajaRepo.save(cajaUpdate));
 
-        return cajaRepo.save(cajaUpdate);
+        return response;
 
     }
 
     @Override
-    public MovimCaja sacarSaldoCaja() {
-        return null;
+    public List<MovimCaja> getRegistrosCaja(Boolean isIngreso, Long cajaId) {
+        return this.movimCajaRepo.findMovimientoCaja(cajaId, isIngreso);
     }
 
-    @Override
-    public MovimCaja abonarSaldoCaja() {
-        return null;
-    }
 }

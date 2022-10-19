@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface MovimCajaRepo extends JpaRepository<MovimCaja, Long> {
 
-    @Query("select m from MovimCaja m where m.caja.id = :cajaId")
-    List<MovimCaja> findByUsuarioId(@Param("cajaId") Long cajaId);
+    @Query("select m from MovimCaja m where m.caja.id = :cajaId and m.isIngreso = :isIngreso")
+    List<MovimCaja> findMovimientoCaja(@Param("cajaId") Long cajaId, @Param("isIngreso") Boolean isIngreso);
 }

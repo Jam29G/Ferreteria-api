@@ -2,8 +2,10 @@ package com.dev.ferreteriaapi.services.interfaces;
 
 import com.dev.ferreteriaapi.entities.Caja;
 import com.dev.ferreteriaapi.entities.MovimCaja;
+import com.dev.ferreteriaapi.entities.Venta;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ICajaService {
 
@@ -14,11 +16,9 @@ public interface ICajaService {
     List<Caja> getPendienteAprob(String aprobacion);
     Caja getCajaById(Long id);
     Caja cerrarCaja(Caja caja);
-    Caja emitirGasto(Caja caja, Double monto, String motivo);
-    Caja abonarCaja(Caja caja, Double monto, String motivo);
+    Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo);
+    Map<String, Object> abonarCaja(Caja caja, Double monto, String motivo);
 
-    //Metodos para movimientos de caja
-    MovimCaja sacarSaldoCaja();
-    MovimCaja abonarSaldoCaja();
+    List<MovimCaja> getRegistrosCaja(Boolean isIngreso, Long cajaId);
 
 }
