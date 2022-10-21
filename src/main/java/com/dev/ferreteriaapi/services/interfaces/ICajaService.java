@@ -13,7 +13,7 @@ public interface ICajaService {
     Caja abrirCaja(Caja caja);
     List<Caja> getAllCajas(Boolean estado);
     Caja getCajaUsuario(Long usuarioId);
-    List<Caja> getPendienteAprob(String aprobacion);
+    List<Caja> getPendienteAprob(String aprobacion, Boolean estado);
     Caja getCajaById(Long id);
     Caja cerrarCaja(Caja caja);
     Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo);

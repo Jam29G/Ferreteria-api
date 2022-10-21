@@ -60,8 +60,10 @@ public class CajaService implements ICajaService {
     }
 
     @Override
-    public List<Caja> getPendienteAprob(String aprobacion) {
-        return this.cajaRepo.findByAprobacionAndEstado(aprobacion, false);
+    public List<Caja> getPendienteAprob(String aprobacion, Boolean estado) {
+
+        return this.cajaRepo.findByAprobacionAndEstadoOrderByFechaAperturaDesc(aprobacion, false);
+
     }
 
     @Override

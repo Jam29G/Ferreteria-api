@@ -43,6 +43,11 @@ public class CajaController {
         return ResponseEntity.ok().body(cajaService.getRegistrosCaja(isIngreso, cajaId));
     }
 
+    @GetMapping("/aprobaciones")
+    public ResponseEntity<List<Caja>> getCajasPendAprob() {
+        return ResponseEntity.ok().body(cajaService.getPendienteAprob("P", false));
+    }
+
     @PostMapping()
     public ResponseEntity<Caja> abrirCaja(@RequestBody Caja caja) {
         return new ResponseEntity<>(cajaService.abrirCaja(caja), HttpStatus.OK);

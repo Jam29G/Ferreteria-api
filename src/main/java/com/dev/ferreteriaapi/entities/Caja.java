@@ -33,6 +33,7 @@ public class Caja {
     private LocalDateTime fechaApertura;
     @Column(name = "fecha_cierre")
     private LocalDateTime fechaCierre;
+    // P = pendiente X = anulado A = aprobado
     @Column(name = "aprobacion", length = 1, nullable = false)
     private String aprobacion;
 
