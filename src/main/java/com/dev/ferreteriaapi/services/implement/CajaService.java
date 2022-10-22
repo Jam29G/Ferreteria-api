@@ -83,6 +83,30 @@ public class CajaService implements ICajaService {
     }
 
     @Override
+    public Caja changeAprob(Long cajaId, String aprob) {
+        Caja cajaUpdate = this.getCajaById(cajaId);
+
+        if(cajaUpdate.getEstado()) throw  new ResponseStatusException(HttpStatus.CONFLICT, "Para cambiar el estado de aprobación de una caja, esta debe estar cerrada");
+
+
+        cajaUpdate.setAprobacion(aprob);
+
+        return this.cajaRepo.save(cajaUpdate);
+
+    }
+
+    @Override
+    public List<Caja> getCajasByFilterDate(Boolean estado, String aprobacion, LocalDateTime inicio, LocalDateTime fin) {
+
+        if(aprobacion != null) {
+            return cajaRepo.findByEstadoAndAprobacionAndFechaAperturaBetween(estado, aprobacion, inicio, fin);
+        }
+
+        return cajaRepo.findByEstadoAndFechaAperturaBetween(estado, inicio, fin);
+
+    }
+
+    @Override
     public Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo) {
 
         Map<String, Object> response = new HashMap<>();
