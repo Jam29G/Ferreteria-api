@@ -3,8 +3,11 @@ package com.dev.ferreteriaapi.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,5 +26,14 @@ public class Ubicacion {
 
     @Column(name = "numero", nullable = false)
     private String numero;
+
+    @Column(name = "lugar", nullable = false)
+    private String lugar;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "ubicaciones")
+    private List<Producto> productos = new ArrayList<>();
+
+
 
 }

@@ -3,8 +3,11 @@ package com.dev.ferreteriaapi.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,4 +34,8 @@ public class Empresa {
 
     @Column(name = "estado", nullable = false)
     private Boolean estado;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "proveedores")
+    private List<Producto> productos = new ArrayList<>();
 }

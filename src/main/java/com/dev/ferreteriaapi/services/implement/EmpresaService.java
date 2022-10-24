@@ -34,10 +34,6 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public Empresa create(Empresa empresa) {
 
-        String nombre = empresa.getNombre();
-        String direccion = empresa.getDireccion();
-        String telefono = empresa.getTelefono();
-        String correo = empresa.getCorreo();
 
         if(this.empresaRepo.countByNombre( empresa.getNombre() ) != 0) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "La empresa con el nombre: " + empresa.getNombre() + " ya existe" );
