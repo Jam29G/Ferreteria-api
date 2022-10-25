@@ -68,11 +68,9 @@ public class ProductoService implements IProductoService {
             }
         }
 
+
         productoUpdate.setDescuentoMax((producto.getDescuentoMax()));
         productoUpdate.setDescripcion(producto.getDescripcion());
-        productoUpdate.setCantidad(producto.getCantidad());
-        productoUpdate.setPrecioCompra(producto.getPrecioCompra());
-        productoUpdate.setPrecioVenta(producto.getPrecioVenta());
 
         if(img != null) {
             fileManager.deleteFile(oldImage);
@@ -85,6 +83,12 @@ public class ProductoService implements IProductoService {
 
     @Override
     public void changeState(Long id, Boolean estado) {
+
+        Producto productoUpdate = this.getById(id);
+
+        productoUpdate.setEstado(estado);
+
+        this.productoRepo.save(productoUpdate);
 
     }
 }

@@ -1,5 +1,6 @@
 package com.dev.ferreteriaapi.services.implement;
 
+import com.dev.ferreteriaapi.entities.Producto;
 import com.dev.ferreteriaapi.entities.Ubicacion;
 import com.dev.ferreteriaapi.repository.UbicacionRepo;
 import com.dev.ferreteriaapi.services.interfaces.IUbicacionService;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,7 +46,19 @@ public class UbicacionService implements IUbicacionService {
     @Override
     public void delete(Long id) {
         Ubicacion ubicacion = this.getById(id);
+
+        for(Producto producto : ubicacion.productosRelacionados()) {
+            producto.getUbicaciones().remove(ubicacion);
+        }
+
+        this.ubicacionRepo.flush();
+
+        ubicacion = this.ubicacionRepo.save(ubicacion);
+
+        ubicacion.productosRelacionados().clear();
+
         this.ubicacionRepo.delete(ubicacion);
+
     }
 
 

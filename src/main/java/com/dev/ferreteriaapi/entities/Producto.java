@@ -29,20 +29,12 @@ public class Producto {
     private Double descuentoMax;
     @Column(name = "descripcion", nullable = false)
     private String descripcion;
-    @Column(name = "cantidad", nullable = false)
-    private Long cantidad;
-    @Column(name = "perecedero", nullable = false)
-    private Boolean perecedero;
     @Column(name = "estado", nullable = false)
     private Boolean estado;
-    @Column(name = "img", nullable = false)
+    @Column(name = "img")
     private String img;
-    @Column(name = "precioCompra", nullable = false, precision = 3)
-    private Double precioCompra;
-    @Column(name = "precioVenta", nullable = false, precision = 3)
-    private Double precioVenta;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "proveedores_productos",
             joinColumns = @JoinColumn(name = "producto_id"),
@@ -50,7 +42,7 @@ public class Producto {
     )
     private List<Empresa> proveedores = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "ubicaciones_productos",
             joinColumns = @JoinColumn(name = "producto_id"),

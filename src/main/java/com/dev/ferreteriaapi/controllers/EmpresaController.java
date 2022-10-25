@@ -1,6 +1,7 @@
 package com.dev.ferreteriaapi.controllers;
 
 import com.dev.ferreteriaapi.entities.Empresa;
+import com.dev.ferreteriaapi.entities.Producto;
 import com.dev.ferreteriaapi.services.interfaces.IEmpresaService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +33,11 @@ public class EmpresaController {
     @GetMapping("/find")
     public ResponseEntity<List<Empresa>> findEmpresa(@RequestParam() String search, @RequestParam() Boolean estado) {
         return new ResponseEntity<>(this.empresaService.findEmpresa(search, estado), HttpStatus.OK);
+    }
+
+    @GetMapping("/productos/{id}")
+    public ResponseEntity<List<Producto>> getProductosRelacionados(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(this.empresaService.getProductosRelacionados(id), HttpStatus.OK);
     }
 
     @PostMapping("")

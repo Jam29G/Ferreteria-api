@@ -1,6 +1,7 @@
 package com.dev.ferreteriaapi.services.implement;
 
 import com.dev.ferreteriaapi.entities.Empresa;
+import com.dev.ferreteriaapi.entities.Producto;
 import com.dev.ferreteriaapi.repository.EmpresaRepo;
 import com.dev.ferreteriaapi.services.interfaces.IEmpresaService;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,17 @@ public class EmpresaService implements IEmpresaService {
     @Override
     public List<Empresa> getAll(Boolean estado) {
         return empresaRepo.findTop40ByEstado(estado);
+    }
+
+    @Override
+    public List<Producto> getProductosRelacionados(Long id) {
+        Empresa empresa = this.getEmpresaById(id);
+
+        List<Producto> productos = empresa.productosProveedor();
+
+        productos.removeIf(p -> Objects.equals( p.getEstado(), false ));
+
+        return  productos;
     }
 
 
