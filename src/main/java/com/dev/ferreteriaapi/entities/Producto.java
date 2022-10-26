@@ -31,6 +31,8 @@ public class Producto {
     private String descripcion;
     @Column(name = "estado", nullable = false)
     private Boolean estado;
+    @Column(name = "is_perecedero", nullable = false)
+    private Boolean isPerecedero;
     @Column(name = "img")
     private String img;
 

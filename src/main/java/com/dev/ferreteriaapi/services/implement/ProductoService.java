@@ -1,6 +1,8 @@
 package com.dev.ferreteriaapi.services.implement;
 
+import com.dev.ferreteriaapi.entities.Empresa;
 import com.dev.ferreteriaapi.entities.Producto;
+import com.dev.ferreteriaapi.entities.Ubicacion;
 import com.dev.ferreteriaapi.repository.ProductoRepo;
 import com.dev.ferreteriaapi.services.interfaces.IProductoService;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +55,11 @@ public class ProductoService implements IProductoService {
     }
 
     @Override
+    public List<Producto> findProducto(String filter, Boolean estado) {
+        return this.productoRepo.findProductos(filter, estado);
+    }
+
+    @Override
     public Producto update(Producto producto, Long id, MultipartFile img) {
 
         Producto productoUpdate = this.getById(id);
@@ -79,6 +86,46 @@ public class ProductoService implements IProductoService {
         productoUpdate = this.productoRepo.save(productoUpdate);
 
         return productoUpdate;
+    }
+
+    @Override
+    public Producto addEmpresas(Long id, List<Empresa> empresas) {
+        Producto productoUpdate = this.getById(id);
+        for(Empresa empresa : empresas) {
+            productoUpdate.addEmpresa(empresa);
+        }
+
+        return this.productoRepo.save(productoUpdate);
+    }
+
+    @Override
+    public Producto deleteEmpresas(Long id, List<Empresa> empresas) {
+        Producto productoUpdate = this.getById(id);
+        for(Empresa empresa: empresas) {
+            productoUpdate.removeEmpresa(empresa);
+        }
+
+        return this.productoRepo.save(productoUpdate);
+    }
+
+    @Override
+    public Producto addUbicaciones(Long id, List<Ubicacion> ubicaciones) {
+        Producto productoUpdate = this.getById(id);
+        for(Ubicacion ubicacion : ubicaciones) {
+            productoUpdate.addUbicacion(ubicacion);
+        }
+
+        return this.productoRepo.save(productoUpdate);
+    }
+
+    @Override
+    public Producto deleteUbicaciones(Long id, List<Ubicacion> ubicaciones) {
+        Producto productoUpdate = this.getById(id);
+        for(Ubicacion ubicacion : ubicaciones) {
+            productoUpdate.removeUbicacion(ubicacion);
+        }
+
+        return this.productoRepo.save(productoUpdate);
     }
 
     @Override

@@ -13,4 +13,10 @@ public interface ProductoRepo extends JpaRepository<Producto, Long> {
 
     @Query("select count(p) from Producto p where p.nombre = :nombre or p.codigo = :codigo ")
     Long countByCodigoOrNombre(@Param("nombre") String nombre, @Param("codigo") String codigo);
+
+
+    @Query(
+            "select p from Producto p where ( LOWER(p.nombre) LIKE CONCAT('%', :filter ,'%') OR LOWER(p.descripcion) LIKE CONCAT('%', :filter ,'%') ) and p.estado = :estado"
+    )
+    List<Producto> findProductos(@Param("filter") String filter, @Param("estado") Boolean estado);
 }

@@ -18,7 +18,10 @@ public class FerreteriaapiApplication {
 		SpringApplication.run(FerreteriaapiApplication.class, args);
 	}
 
-	/*@Bean
+
+
+	/*
+	@Bean
 	CommandLineRunner run(IUsuarioService usuarioService, BCryptPasswordEncoder passwordEncoder) {
 		return args -> {
 			usuarioService.saveRol(new Rol(null, "ROLE_ADMIN"));
@@ -110,6 +113,6 @@ public class FerreteriaapiApplication {
 
 
 		};
-	}*/
+	} */
 
 }
