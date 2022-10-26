@@ -8,9 +8,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
@@ -21,6 +27,21 @@ import java.util.List;
 public class ProductoController {
 
     private final IProductoService productoService;
+
+    @GetMapping(value = "/image/{filename}")
+    public @ResponseBody void getImage(HttpServletResponse response, @PathVariable("filename") String filename ) throws IOException {
+
+        String UPLOAD_FOLDER = "src//main//resources/images";
+
+        File fl = new File(UPLOAD_FOLDER + "//" + filename);
+
+        InputStream resource = new FileInputStream(fl);
+
+        StreamUtils.copy(resource, response.getOutputStream());
+
+        resource.close();
+
+    }
 
     @GetMapping()
     public ResponseEntity<List<Producto>> getAllProductos(@RequestParam("estado") Boolean estado) {
@@ -72,6 +93,12 @@ public class ProductoController {
     @PutMapping("/removeUbicaciones/{id}")
     public ResponseEntity<Producto> removeubicaciones(@PathVariable("id") Long id, @RequestBody List<Ubicacion> ubicaciones) {
         return new ResponseEntity<>(productoService.deleteUbicaciones(id, ubicaciones), HttpStatus.OK);
+    }
+
+    @PutMapping("/changeState/{id}")
+    public ResponseEntity<Void> changeState(@PathVariable("id") Long id, @RequestParam("estado") Boolean estado) {
+        productoService.changeState(id, estado);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
