@@ -20,12 +20,20 @@ public class CategoriaProducto {
     @Column(name = "id", nullable = false)
     private Long id;
 
+
+    @Column(name = "precio_compra", nullable = false, precision = 3)
     private Double precioCompra;
+    @Column(name = "precio_venta", nullable = false, precision = 3)
     private Double precioVenta;
+    @Column(name = "cantidad", nullable = false)
     private Long cantidad;
+    @Column(name = "fecha_ingreso", nullable = false)
     private LocalDateTime fechaIngreso;
+    @Column(name = "fecha_venc")
     private LocalDateTime fechaVenc;
+    @Column(name = "is_vencido")
     private Boolean is_vencido;
+    @Column(name = "is_perecedero", nullable = false)
     private Boolean is_perecedero;
 
     @ManyToOne()
