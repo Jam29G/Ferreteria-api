@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,9 +27,11 @@ public class Compra {
     @Column(name = "monto", nullable = false, precision = 3)
     private Double monto;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "empresa_id", nullable = false)
     private Empresa empresa;
 
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.PERSIST)
+    private List<DetalleCompra> detalleCompra;
 
 }
