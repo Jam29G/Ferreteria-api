@@ -20,7 +20,7 @@ public class FerreteriaapiApplication {
 
 
 
-
+/*
 	@Bean
 	CommandLineRunner run(IUsuarioService usuarioService, BCryptPasswordEncoder passwordEncoder) {
 		return args -> {
@@ -114,5 +114,5 @@ public class FerreteriaapiApplication {
 
 		};
 	}
-
+*/
 }

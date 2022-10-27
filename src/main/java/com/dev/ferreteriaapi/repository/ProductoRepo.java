@@ -16,7 +16,7 @@ public interface ProductoRepo extends JpaRepository<Producto, Long> {
 
 
     @Query(
-            "select p from Producto p where ( LOWER(p.nombre) LIKE CONCAT('%', :filter ,'%') OR LOWER(p.descripcion) LIKE CONCAT('%', :filter ,'%') ) and p.estado = :estado"
+            "select p from Producto p where ( LOWER(p.nombre) LIKE CONCAT('%', :filter ,'%') OR LOWER(p.descripcion) LIKE CONCAT('%', :filter ,'%') OR LOWER(p.codigo) LIKE CONCAT('%', :filter ,'%') ) and p.estado = :estado"
     )
     List<Producto> findProductos(@Param("filter") String filter, @Param("estado") Boolean estado);
 }
