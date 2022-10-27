@@ -1,6 +1,7 @@
 package com.dev.ferreteriaapi.entities;
 
 import lombok.*;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -27,14 +28,15 @@ public class DetalleCompra {
     @Setter
     private Long cantidad;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @Setter
     @JoinColumn(name = "compra_id", nullable = false)
     private Compra compra;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "producto_id", nullable = false)
+    @JoinColumn(name = "detalle_prod_id", nullable = false)
     @Getter
     @Setter
-    private Producto producto;
+    private DetalleProducto detalleProducto;
 }
