@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,13 +34,16 @@ public class CompraService implements ICompraService {
         List<DetalleCompra> detalle = compra.getDetalleCompra();
         compra.setDetalleCompra(null);
         Compra c = this.compraRepo.save(compra);
-        Long id = c.getId();
-        System.out.println("MY ID " + id);
         detalle.forEach((detail) -> {
             detail.setCompra(c);
             this.detalleRepo.save(detail);
         });
         return c;
+    }
+
+    @Override
+    public List<Compra> findCompraByDates(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+        return compraRepo.findCompraByDates(fechaInicio,fechaFin);
     }
 
 }
