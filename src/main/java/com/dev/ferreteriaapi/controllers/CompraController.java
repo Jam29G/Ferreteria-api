@@ -50,4 +50,16 @@ public class CompraController {
         return new ResponseEntity<>(this.compraService.findCompraByDates(start, end), HttpStatus.OK);
     }
 
+    @GetMapping("/date")
+    public ResponseEntity<List<Compra>> getComprasByDates(@RequestParam("fecha") String fecha) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        LocalDateTime start = LocalDateTime.parse(fecha + " 00:00", formatter);
+        LocalDateTime end = LocalDateTime.parse(fecha + " 23:59", formatter);
+
+        return new ResponseEntity<>(this.compraService.findCompraByDates(start, end), HttpStatus.OK);
+    }
+
+
 }
