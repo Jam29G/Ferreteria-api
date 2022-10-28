@@ -34,16 +34,14 @@ public class DetalleVenta {
     private String observaciones;
 
     @ManyToOne(cascade = CascadeType.MERGE)
+    @Getter
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @Setter
     @JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
-
-
-
 
 }

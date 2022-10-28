@@ -19,6 +19,7 @@ public class Venta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
+
     @Column(name = "cliente", nullable = false, length = 60)
     private String cliente;
     @Column(name = "num_factura", nullable = false, length = 30)
@@ -36,7 +37,7 @@ public class Venta {
     @Column(name = "is_cred_fisc", nullable = false)
     private String isCredFisc;
     @Column(name = "montoFinal", nullable = false)
-    private Boolean montoFinal;
+    private Double montoFinal;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "usuario_id", nullable = false)
@@ -46,7 +47,7 @@ public class Venta {
     @JoinColumn(name = "caja_id", nullable = false)
     private Caja caja;
 
-    @OneToMany(mappedBy = "venta", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.MERGE)
     private List<DetalleVenta> detalleVentas;
 
 }

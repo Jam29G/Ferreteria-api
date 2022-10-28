@@ -4,6 +4,7 @@ import com.dev.ferreteriaapi.entities.DetalleProducto;
 import com.dev.ferreteriaapi.services.interfaces.IDetalleProductoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +23,12 @@ public class DetalleProductoController {
     public ResponseEntity<List<DetalleProducto>> getDetallesByEmpresa(@PathVariable("id") Long id, @RequestParam("estado") Boolean estado) {
         return new ResponseEntity<>(detalleProductoService.getDetallesByEmpresa(id,estado), HttpStatus.OK);
     }
+
+    @GetMapping("/find/caducados")
+    public ResponseEntity<List<DetalleProducto>> getProductosCaducados() {
+        return new ResponseEntity<>(detalleProductoService.getProductosVencidos(), HttpStatus.OK);
+    }
+
 
     @GetMapping("")
     public ResponseEntity<List<DetalleProducto>> getAllDetalle() {
