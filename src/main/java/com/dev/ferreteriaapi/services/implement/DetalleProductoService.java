@@ -38,9 +38,15 @@ public class DetalleProductoService implements IDetalleProductoService {
         return detalleProductoRepo.findTop60ByCantidadGreaterThanAndEstado(0L, true);
     }
 
+
     @Override
     public List<DetalleProducto> findDetalle(String filter) {
         return detalleProductoRepo.findByNombreAndCodigoAndEstado(filter);
+    }
+
+    @Override
+    public List<DetalleProducto> getProductosVencidos() {
+        return detalleProductoRepo.findProductosCaducados();
     }
 
     @Override

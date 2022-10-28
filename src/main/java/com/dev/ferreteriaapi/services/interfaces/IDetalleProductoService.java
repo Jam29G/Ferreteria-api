@@ -11,6 +11,7 @@ public interface IDetalleProductoService {
     List<DetalleProducto> getAllDetalle();
 
     List<DetalleProducto> findDetalle(String filter);
+    List<DetalleProducto> getProductosVencidos();
 
     DetalleProducto update(DetalleProducto detalle, Long id);
     List<DetalleProducto> getDetallesByEmpresa(Long empresaId, Boolean estado);
