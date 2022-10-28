@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,6 +23,30 @@ public class Venta {
     private String cliente;
     @Column(name = "num_factura", nullable = false, length = 30)
     private String numFactura;
-    //TODO: Mapear los demas campos
+    @Column(name = "direccion", nullable = true ,length = 180)
+    private String direccion;
+    @Column(name = "departamento", nullable = true, length = 80)
+    private String departamento;
+    @Column(name = "fecha", nullable = false)
+    private LocalDateTime fecha;
+    @Column(name = "num_registro", nullable = true, length = 30)
+    private String numRegistro;
+    @Column(name = "giro", nullable = true, length = 80)
+    private String giro;
+    @Column(name = "is_cred_fisc", nullable = false)
+    private String isCredFisc;
+    @Column(name = "montoFinal", nullable = false)
+    private Boolean montoFinal;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "caja_id", nullable = false)
+    private Caja caja;
+
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.PERSIST)
+    private List<DetalleVenta> detalleVentas;
 
 }

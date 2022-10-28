@@ -34,4 +34,8 @@ public class Compra {
     @OneToMany(mappedBy = "compra", cascade = CascadeType.PERSIST)
     private List<DetalleCompra> detalleCompra;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
 }

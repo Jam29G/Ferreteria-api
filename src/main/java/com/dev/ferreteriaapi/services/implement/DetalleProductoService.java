@@ -25,7 +25,22 @@ public class DetalleProductoService implements IDetalleProductoService {
 
     @Override
     public DetalleProducto create(DetalleProducto detalle) {
+
+        if(detalle.getPrecioCompra() >= detalle.getPrecioVenta()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "El precio de compra no puede ser mayor al precio de venta");
+        }
+
         return this.detalleProductoRepo.save(detalle);
+    }
+
+    @Override
+    public List<DetalleProducto> getAllDetalle() {
+        return detalleProductoRepo.findTop60ByCantidadGreaterThanAndEstado(0L, true);
+    }
+
+    @Override
+    public List<DetalleProducto> findDetalle(String filter) {
+        return detalleProductoRepo.findByNombreAndCodigoAndEstado(filter);
     }
 
     @Override
@@ -33,6 +48,10 @@ public class DetalleProductoService implements IDetalleProductoService {
         DetalleProducto detalleUpdate = this.getById(id);
 
         detalleUpdate.setPrecioVenta(detalle.getPrecioVenta());
+
+        if(detalle.getPrecioCompra() >= detalle.getPrecioVenta()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "El precio de compra no puede ser mayor al precio de venta");
+        }
 
         return this.detalleProductoRepo.save(detalleUpdate);
     }

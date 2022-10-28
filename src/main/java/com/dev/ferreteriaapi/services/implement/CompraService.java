@@ -65,6 +65,7 @@ public class CompraService implements ICompraService {
             control.setCantidad(detail.getCantidad());
             control.setObservacion("Compra de productos");
             control.setProducto(detalleProd.getProducto());
+            control.setUsuario(c.getUsuario());
 
             controlInventarioProductoRepo.save(control);
 

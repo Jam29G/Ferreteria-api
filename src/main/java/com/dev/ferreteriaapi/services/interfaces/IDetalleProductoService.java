@@ -8,6 +8,10 @@ public interface IDetalleProductoService {
 
     DetalleProducto create(DetalleProducto detalle);
 
+    List<DetalleProducto> getAllDetalle();
+
+    List<DetalleProducto> findDetalle(String filter);
+
     DetalleProducto update(DetalleProducto detalle, Long id);
     List<DetalleProducto> getDetallesByEmpresa(Long empresaId, Boolean estado);
     DetalleProducto getById(Long id);

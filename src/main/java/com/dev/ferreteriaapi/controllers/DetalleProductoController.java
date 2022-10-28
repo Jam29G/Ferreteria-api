@@ -23,6 +23,16 @@ public class DetalleProductoController {
         return new ResponseEntity<>(detalleProductoService.getDetallesByEmpresa(id,estado), HttpStatus.OK);
     }
 
+    @GetMapping("")
+    public ResponseEntity<List<DetalleProducto>> getAllDetalle() {
+        return new ResponseEntity<>(detalleProductoService.getAllDetalle(), HttpStatus.OK);
+    }
+
+    @GetMapping("/find/{filter}")
+    public ResponseEntity<List<DetalleProducto>> getByFilter(@PathVariable("filter") String filter) {
+        return new ResponseEntity<>(detalleProductoService.findDetalle(filter), HttpStatus.OK);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<DetalleProducto> getById(@PathVariable("id") Long id) {
         return new ResponseEntity<>(detalleProductoService.getById(id), HttpStatus.OK);

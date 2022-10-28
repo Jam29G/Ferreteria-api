@@ -18,5 +18,12 @@ public interface DetalleProductoRepo extends JpaRepository<DetalleProducto, Long
     @Query("select d from DetalleProducto d where d.producto IN :productos and d.estado = :estado ORDER BY d.producto.id")
     List<DetalleProducto> findDetalleByProducto(@Param("productos")List<Producto> productos, @Param("estado") Boolean estado);
 
+    List<DetalleProducto> findTop60ByCantidadGreaterThanAndEstado(Long cantidad, Boolean estado);
+
+    @Query(
+            "select d from DetalleProducto d where ( LOWER(d.producto.nombre) LIKE CONCAT('%', :filter ,'%') OR LOWER(d.producto.codigo) LIKE CONCAT('%', :filter ,'%')  ) and d.estado = true and d.cantidad > 0 "
+    )
+    List<DetalleProducto> findByNombreAndCodigoAndEstado(@Param("filter") String filter);
+
 
 }

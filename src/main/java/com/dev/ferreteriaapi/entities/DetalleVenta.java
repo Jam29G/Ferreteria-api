@@ -1,42 +1,49 @@
 package com.dev.ferreteriaapi.entities;
 
 import lombok.*;
+import org.codehaus.jackson.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Table(name = "control_inventario_productos")
-public class ControlInventarioProducto {
+@Table(name = "detalles_ventas")
+public class DetalleVenta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
+    @Getter @Setter
     private Long id;
 
-    @Column(name = "salida", nullable = false)
-    private Boolean salida;
-    @Column(name = "fecha_movimiento", nullable = false)
-    private LocalDateTime fechaMovimiento;
-    @Column(name = "observacion")
-    private String observacion;
+    @Getter @Setter
     @Column(name = "precio_compra", nullable = false, precision = 3)
     private Double precioCompra;
+    @Getter @Setter
     @Column(name = "precio_venta", nullable = false, precision = 3)
     private Double precioVenta;
-    @Column(name = "monto", precision = 3, nullable = false)
-    private Double monto;
+    @Getter @Setter
     @Column(name = "cantidad", nullable = false)
     private Long cantidad;
+    @Getter @Setter
+    @Column(name = "descuento", nullable = false, precision = 3)
+    private Double descuento;
+    @Getter @Setter
+    @Column(name = "observaciones")
+    private String observaciones;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @Setter
+    @JoinColumn(name = "venta_id", nullable = false)
+    private Venta venta;
+
+
+
 
 }
