@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UbicacionRepo extends JpaRepository<Ubicacion, Long> {
 
-    Long countByLugarAndNumero(String lugar, String numero);
+    Long countByLugarAndNumeroAndZona(String lugar, String numero, String zona);
 
 
 }

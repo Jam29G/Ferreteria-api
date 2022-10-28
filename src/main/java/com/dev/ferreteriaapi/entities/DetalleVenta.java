@@ -34,9 +34,9 @@ public class DetalleVenta {
     private String observaciones;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @Getter
-    @JoinColumn(name = "producto_id", nullable = false)
-    private Producto producto;
+    @Getter @Setter
+    @JoinColumn(name = "detalle_producto_id", nullable = false)
+    private DetalleProducto detalleProducto;
 
     @JsonIgnore
     @ManyToOne(cascade = CascadeType.MERGE)

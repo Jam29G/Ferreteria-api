@@ -35,9 +35,11 @@ public class Venta {
     @Column(name = "giro", nullable = true, length = 80)
     private String giro;
     @Column(name = "is_cred_fisc", nullable = false)
-    private String isCredFisc;
+    private Boolean isCredFisc;
     @Column(name = "montoFinal", nullable = false)
     private Double montoFinal;
+    @Column(name = "cambio", nullable = false)
+    private Double cambio;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "usuario_id", nullable = false)

@@ -35,7 +35,7 @@ public class UbicacionService implements IUbicacionService {
     @Override
     public Ubicacion create(Ubicacion ubicacion) {
 
-        if(this.ubicacionRepo.countByLugarAndNumero(ubicacion.getLugar(), ubicacion.getNumero()) != 0) {
+        if(this.ubicacionRepo.countByLugarAndNumeroAndZona(ubicacion.getLugar(), ubicacion.getNumero(), ubicacion.getZona()) != 0) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Ya existe una ubicación registrada con las misma información");
         }
 

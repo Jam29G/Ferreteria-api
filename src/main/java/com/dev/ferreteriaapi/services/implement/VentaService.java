@@ -1,6 +1,7 @@
 package com.dev.ferreteriaapi.services.implement;
 
 import com.dev.ferreteriaapi.entities.*;
+import com.dev.ferreteriaapi.repository.CajaRepo;
 import com.dev.ferreteriaapi.repository.ControlInventarioProductoRepo;
 import com.dev.ferreteriaapi.repository.DetalleVentaRepo;
 import com.dev.ferreteriaapi.repository.VentaRepo;
@@ -25,6 +26,9 @@ public class VentaService implements IVentaService {
     private final DetalleVentaRepo detalleVentaRepo;
     private final ControlInventarioProductoRepo controlInventarioProductoRepo;
 
+    private final CajaService cajaService;
+    private final CajaRepo cajaRepo;
+
     @Override
     public List<Venta> getAll() {
         return ventaRepo.findAll();
@@ -47,6 +51,10 @@ public class VentaService implements IVentaService {
 
         Venta v = this.ventaRepo.save(venta);
 
+        this.cajaService.abonarCaja(v.getCaja(), v.getMontoFinal(), "Venta");
+
+        this.cajaService.emitirGasto(v.getCaja(), v.getCambio(), "Cambio para venta");
+
         detalle.forEach((detail) -> {
             detail.setVenta(v);
             System.out.println(detail.getId());
@@ -62,8 +70,10 @@ public class VentaService implements IVentaService {
             control.setMonto(detail.getPrecioCompra() * detail.getCantidad());
             control.setCantidad(detail.getCantidad());
             control.setObservacion("Venta de productos");
-            control.setProducto(detail.getProducto());
+            control.setProducto(detail.getDetalleProducto().getProducto());
             control.setUsuario(v.getUsuario());
+
+
 
             controlInventarioProductoRepo.save(control);
         });
