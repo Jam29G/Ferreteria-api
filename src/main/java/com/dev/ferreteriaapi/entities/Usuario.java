@@ -19,10 +19,10 @@ public class Usuario {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column( name = "nombre", nullable = false, length = 60)
+    @Column( name = "nombre", nullable = false, length = 40)
     private String nombre;
 
-    @Column( name = "apellido", length = 60)
+    @Column( name = "apellido", length = 40)
     private String apellido;
 
     @Column( name = "username", nullable = false, length = 60, unique = true)

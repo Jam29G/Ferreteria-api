@@ -58,54 +58,15 @@ public class FerreteriaapiApplication {
 					new ArrayList<>()
 			));
 
-			usuarioService.saveUsuario(new Usuario(
-					null,
-					"Karla",
-					"Lopez",
-					"karla12",
-					passwordEncoder.encode("12345"),
-					true,
-					new ArrayList<>()
-			));
 
-			usuarioService.saveUsuario(new Usuario(
-					null,
-					"Jorge",
-					"Leon",
-					"jorge21",
-					passwordEncoder.encode("12345"),
-					true,
-					new ArrayList<>()
-			));
 
-			usuarioService.saveUsuario(new Usuario(
-					null,
-					"Javier",
-					"Pilar",
-					"javier43",
-					passwordEncoder.encode("12345"),
-					true,
-					new ArrayList<>()
-			));
 
-			usuarioService.saveUsuario(new Usuario(
-					null,
-					"Valeria",
-					"Valle",
-					"valeria11",
-					passwordEncoder.encode("12345"),
-					true,
-					new ArrayList<>()
-			));
 
 			usuarioService.addRolToUsuario("jam29", "ROLE_GERENTE");
 			usuarioService.addRolToUsuario("jam29", "ROLE_CAJERO");
 
 			usuarioService.addRolToUsuario("jose12", "ROLE_CAJERO");
-			usuarioService.addRolToUsuario("karla12", "ROLE_CAJERO");
-			usuarioService.addRolToUsuario("jorge21", "ROLE_CAJERO");
-			usuarioService.addRolToUsuario("javier43", "ROLE_CAJERO");
-			usuarioService.addRolToUsuario("valeria11", "ROLE_CAJERO");
+
 
 			usuarioService.addRolToUsuario("admin", "ROLE_ADMIN");
 			usuarioService.addRolToUsuario("admin", "ROLE_GERENTE");
