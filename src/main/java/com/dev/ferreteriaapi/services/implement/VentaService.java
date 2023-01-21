@@ -28,6 +28,7 @@ public class VentaService implements IVentaService {
 
     private final CajaService cajaService;
     private final CajaRepo cajaRepo;
+    private final DetalleProductoService detalleProductoService;
 
     @Override
     public List<Venta> getAll() {
@@ -51,12 +52,18 @@ public class VentaService implements IVentaService {
 
         Venta v = this.ventaRepo.save(venta);
 
-        this.cajaService.abonarCaja(v.getCaja(), v.getMontoFinal(), "Venta");
+        this.cajaService.abonarCaja(v.getCaja(), v.getPago(), "Venta", v);
 
-        this.cajaService.emitirGasto(v.getCaja(), v.getCambio(), "Cambio para venta");
+        if(v.getCambio() > 0) this.cajaService.emitirGasto(v.getCaja(), v.getCambio(), "Cambio para venta", v);
 
         detalle.forEach((detail) -> {
             detail.setVenta(v);
+            //Restando la cantidad vendida
+            if(detail.getDetalleProducto().getCantidad() < detail.getCantidad()) throw new RuntimeException("La cantidad del producto es menor de la que se desea vender");
+            DetalleProducto producto = this.detalleProductoService.getById(detail.getDetalleProducto().getId());
+            producto.setCantidad(producto.getCantidad() - detail.getCantidad());
+            this.detalleProductoService.create(producto);
+            //Guardando el detalle
             System.out.println(detail.getId());
             this.detalleVentaRepo.save(detail);
 

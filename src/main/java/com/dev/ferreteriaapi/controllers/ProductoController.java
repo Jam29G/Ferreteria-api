@@ -31,6 +31,7 @@ public class ProductoController {
     @GetMapping(value = "/image/{filename}")
     public @ResponseBody void getImage(HttpServletResponse response, @PathVariable("filename") String filename ) throws IOException {
 
+        //String UPLOAD_FOLDER = "resources/images";
         String UPLOAD_FOLDER = "src//main//resources/images";
 
         File fl = new File(UPLOAD_FOLDER + "//" + filename);

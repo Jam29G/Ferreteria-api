@@ -105,14 +105,14 @@ public class CajaController {
     @PutMapping("/emitirGasto")
     public ResponseEntity<Map<String, Object>> emitirGasto(@RequestBody Caja caja, @RequestParam("monto") Double monto, @RequestParam("motivo") String motivo) {
 
-        return new ResponseEntity<>(cajaService.emitirGasto(caja, monto, motivo), HttpStatus.OK);
+        return new ResponseEntity<>(cajaService.emitirGasto(caja, monto, motivo, null), HttpStatus.OK);
 
     }
 
     @PutMapping("/abonarCaja")
     public ResponseEntity<Map<String, Object>> abonarCaja(@RequestBody Caja caja, @RequestParam("monto") Double monto, @RequestParam("motivo") String motivo) {
 
-        return new ResponseEntity<>(cajaService.abonarCaja(caja, monto, motivo), HttpStatus.OK);
+        return new ResponseEntity<>(cajaService.abonarCaja(caja, monto, motivo, null), HttpStatus.OK);
 
     }
 

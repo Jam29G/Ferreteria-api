@@ -19,6 +19,33 @@ public class FerreteriaapiApplication {
 	}
 
 
+	/*
+	@Bean
+	CommandLineRunner run(IUsuarioService usuarioService, BCryptPasswordEncoder passwordEncoder) {
+		return args -> {
+			usuarioService.saveRol(new Rol(null, "ROLE_ADMIN"));
+			usuarioService.saveRol(new Rol(null, "ROLE_GERENTE"));
+			usuarioService.saveRol(new Rol(null, "ROLE_CAJERO"));
+
+			usuarioService.saveUsuario(new Usuario(
+					null,
+					"admin",
+					"admin",
+					"admin",
+					passwordEncoder.encode("12345"),
+					true,
+					new ArrayList<>()
+			));
+
+			usuarioService.addRolToUsuario("admin", "ROLE_ADMIN");
+			usuarioService.addRolToUsuario("admin", "ROLE_GERENTE");
+			usuarioService.addRolToUsuario("admin", "ROLE_CAJERO");
+
+
+		};
+	}
+
+
 
 /*
 	@Bean

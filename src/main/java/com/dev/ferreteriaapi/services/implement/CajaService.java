@@ -2,6 +2,7 @@ package com.dev.ferreteriaapi.services.implement;
 
 import com.dev.ferreteriaapi.entities.Caja;
 import com.dev.ferreteriaapi.entities.MovimCaja;
+import com.dev.ferreteriaapi.entities.Venta;
 import com.dev.ferreteriaapi.repository.CajaRepo;
 import com.dev.ferreteriaapi.repository.MovimCajaRepo;
 import com.dev.ferreteriaapi.services.interfaces.ICajaService;
@@ -107,7 +108,7 @@ public class CajaService implements ICajaService {
     }
 
     @Override
-    public Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo) {
+    public Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo, Venta venta) {
 
         Map<String, Object> response = new HashMap<>();
 
@@ -125,6 +126,8 @@ public class CajaService implements ICajaService {
 
         MovimCaja newMovimiento = new MovimCaja();
 
+        if(venta != null) newMovimiento.setVenta(venta);
+
         newMovimiento.setMotivo(motivo);
         newMovimiento.setIsIngreso(false);
         newMovimiento.setMonto(monto);
@@ -138,7 +141,7 @@ public class CajaService implements ICajaService {
     }
 
     @Override
-    public Map<String, Object> abonarCaja(Caja caja, Double monto, String motivo) {
+    public Map<String, Object> abonarCaja(Caja caja, Double monto, String motivo, Venta venta) {
 
         Map<String, Object> response = new HashMap<>();
 
@@ -152,6 +155,8 @@ public class CajaService implements ICajaService {
         cajaUpdate.setSaldoIngr((cajaUpdate.getSaldoIngr() + monto));
 
         MovimCaja newMovimiento = new MovimCaja();
+
+        if(venta != null) newMovimiento.setVenta(venta);
 
         newMovimiento.setMotivo(motivo);
         newMovimiento.setIsIngreso(true);

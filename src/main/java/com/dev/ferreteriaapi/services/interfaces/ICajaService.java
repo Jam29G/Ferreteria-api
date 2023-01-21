@@ -22,8 +22,8 @@ public interface ICajaService {
             Boolean estado, String aprobacion, LocalDateTime inicio, LocalDateTime fin
     );
 
-    Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo);
-    Map<String, Object> abonarCaja(Caja caja, Double monto, String motivo);
+    Map<String, Object> emitirGasto(Caja caja, Double monto, String motivo, Venta venta);
+    Map<String, Object> abonarCaja(Caja caja, Double monto, String motivo, Venta venta);
     List<MovimCaja> getRegistrosCaja(Boolean isIngreso, Long cajaId);
 
 

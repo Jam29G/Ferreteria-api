@@ -16,7 +16,9 @@ import java.util.UUID;
 @Service
 @CrossOrigin
 public class FileUploadService {
+
     private static final String UPLOAD_FOLDER = "src//main//resources/images";
+    //private static final String UPLOAD_FOLDER = "./resources/images";
 
     public String copiFile(MultipartFile file) throws IOException {
         String uniqueFileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();

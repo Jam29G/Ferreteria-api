@@ -41,6 +41,9 @@ public class Venta {
     @Column(name = "cambio", nullable = false)
     private Double cambio;
 
+    @Column(name = "pago", nullable = false)
+    private Double pago;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
