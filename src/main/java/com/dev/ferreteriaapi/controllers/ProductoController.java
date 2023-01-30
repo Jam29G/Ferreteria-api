@@ -3,6 +3,7 @@ package com.dev.ferreteriaapi.controllers;
 import com.dev.ferreteriaapi.entities.Empresa;
 import com.dev.ferreteriaapi.entities.Producto;
 import com.dev.ferreteriaapi.entities.Ubicacion;
+import com.dev.ferreteriaapi.services.interfaces.IDetalleProductoService;
 import com.dev.ferreteriaapi.services.interfaces.IProductoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +28,7 @@ import java.util.List;
 public class ProductoController {
 
     private final IProductoService productoService;
+    private final IDetalleProductoService detalleProductoService;
 
     @GetMapping(value = "/image/{filename}")
     public @ResponseBody void getImage(HttpServletResponse response, @PathVariable("filename") String filename ) throws IOException {

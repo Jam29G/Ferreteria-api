@@ -1,8 +1,7 @@
 package com.dev.ferreteriaapi.services.implement;
 
-import com.dev.ferreteriaapi.entities.DetalleProducto;
-import com.dev.ferreteriaapi.entities.Empresa;
-import com.dev.ferreteriaapi.entities.Producto;
+import com.dev.ferreteriaapi.entities.*;
+import com.dev.ferreteriaapi.repository.ControlInventarioProductoRepo;
 import com.dev.ferreteriaapi.repository.DetalleProductoRepo;
 import com.dev.ferreteriaapi.services.interfaces.IDetalleProductoService;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -21,6 +21,8 @@ import java.util.List;
 public class DetalleProductoService implements IDetalleProductoService {
     private final DetalleProductoRepo detalleProductoRepo;
     private final EmpresaService empresaService;
+
+    private final ControlInventarioProductoRepo controlInventarioProductoRepo;
 
 
     @Override
@@ -63,6 +65,14 @@ public class DetalleProductoService implements IDetalleProductoService {
     }
 
     @Override
+    public DetalleProducto updateCantidad(DetalleProducto detalle, Long id) {
+        DetalleProducto detalleUpdate = this.getById(id);
+        detalleUpdate.setCantidad(detalle.getCantidad());
+        System.out.println(detalleUpdate);
+        return this.detalleProductoRepo.save(detalleUpdate);
+    }
+
+    @Override
     public List<DetalleProducto> getDetallesByEmpresa(Long empresaId, Boolean estado) {
         Empresa empresa = this.empresaService.getEmpresaById(empresaId);
 
@@ -79,6 +89,40 @@ public class DetalleProductoService implements IDetalleProductoService {
     @Override
     public List<DetalleProducto> getByProductoId(Long id, Boolean estado) {
         return this.detalleProductoRepo.findByProductoId(id, estado);
+    }
+
+    @Override
+    public boolean checkPerecederos() {
+
+        LocalDateTime fechaInic = LocalDateTime.now().withSecond(0).withMinute(0).withHour(0).withNano(0).plusDays(1);
+        LocalDateTime fechaFin = LocalDateTime.now().withSecond(59).withMinute(59).withHour(23).withNano(0).plusDays(1);
+
+        List<DetalleProducto> productosVencidos = this.detalleProductoRepo.findByFechaVencBetweenAndIsVencido(fechaInic, fechaFin, false);
+
+        if(productosVencidos.size() == 0) return false;
+
+        Usuario admin = new Usuario();
+        admin.setId(1L);
+
+
+        productosVencidos.forEach(producto -> {
+            producto.setIsVencido(true);
+            this.detalleProductoRepo.save(producto);
+
+            ControlInventarioProducto control = new ControlInventarioProducto();
+            control.setSalida(true);
+            control.setFechaMovimiento(LocalDateTime.now());
+            control.setObservacion("Producto vencido");
+            control.setPrecioCompra(producto.getPrecioCompra());
+            control.setPrecioVenta(producto.getPrecioVenta());
+            control.setMonto(producto.getCantidad() * producto.getPrecioCompra());
+            control.setCantidad(producto.getCantidad());
+            control.setProducto(producto.getProducto());
+            control.setUsuario(admin);
+
+            controlInventarioProductoRepo.save(control);
+        });
+        return true;
     }
 
     @Override

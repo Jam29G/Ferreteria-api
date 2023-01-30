@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface DetalleProductoRepo extends JpaRepository<DetalleProducto, Long> {
@@ -27,6 +28,8 @@ public interface DetalleProductoRepo extends JpaRepository<DetalleProducto, Long
             "select d from DetalleProducto d where ( LOWER(d.producto.nombre) LIKE CONCAT('%', :filter ,'%') OR LOWER(d.producto.codigo) LIKE CONCAT('%', :filter ,'%')  ) and d.estado = true and d.cantidad > 0 "
     )
     List<DetalleProducto> findByNombreAndCodigoAndEstado(@Param("filter") String filter);
+
+    List<DetalleProducto> findByFechaVencBetweenAndIsVencido(LocalDateTime fechaInicio, LocalDateTime fechaFin, Boolean isVencido);
 
 
 }

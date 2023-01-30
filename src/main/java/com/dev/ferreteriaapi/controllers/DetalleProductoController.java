@@ -50,9 +50,19 @@ public class DetalleProductoController {
         return new ResponseEntity<>(detalleProductoService.getByProductoId(id, estado), HttpStatus.OK);
     }
 
+    @GetMapping("/checkPerecederos")
+    public ResponseEntity<Boolean> checkPerecederos() {
+        return new ResponseEntity<>(this.detalleProductoService.checkPerecederos(), HttpStatus.OK);
+    }
+
     @PostMapping("")
     public ResponseEntity<DetalleProducto> create(@RequestBody() DetalleProducto detalleProducto) {
         return new ResponseEntity<>(detalleProductoService.create(detalleProducto), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/updateCantidad/{id}")
+    public ResponseEntity<DetalleProducto> updateCantidad(@RequestBody() DetalleProducto detalleProducto, @PathVariable("id") Long id) {
+        return new ResponseEntity<>(detalleProductoService.updateCantidad(detalleProducto, id), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
