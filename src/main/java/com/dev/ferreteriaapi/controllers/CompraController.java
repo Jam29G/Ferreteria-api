@@ -40,8 +40,8 @@ public class CompraController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        LocalDateTime start = LocalDateTime.parse(fechaInicio, formatter);
-        LocalDateTime end = LocalDateTime.parse(fechaFin, formatter);
+        LocalDateTime start = LocalDateTime.parse(fechaInicio, formatter).withHour(0).withMinute(0).withSecond(0).withNano(0);
+        LocalDateTime end = LocalDateTime.parse(fechaFin, formatter).withHour(23).withMinute(59).withSecond(59).withNano(0);
 
         if(!start.isBefore(end)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Rango de fechas invalido");
