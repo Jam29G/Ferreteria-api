@@ -65,10 +65,41 @@ public class DetalleProductoService implements IDetalleProductoService {
     }
 
     @Override
-    public DetalleProducto updateCantidad(DetalleProducto detalle, Long id) {
+    public DetalleProducto updateCantidad(DetalleProducto detalle, Long id, Long usuarioId) {
         DetalleProducto detalleUpdate = this.getById(id);
+        boolean salida = true;
+        long cantidad = 0L;
+        String motivo = "";
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+
+        if(detalle.getCantidad() > detalleUpdate.getCantidad()) {
+            salida = false;
+            cantidad = detalle.getCantidad() - detalleUpdate.getCantidad();
+            motivo = "Ingreso de producto";
+        } else {
+            cantidad = detalleUpdate.getCantidad() - detalle.getCantidad();
+            motivo = "Retiro de producto";
+        }
+
+
         detalleUpdate.setCantidad(detalle.getCantidad());
-        System.out.println(detalleUpdate);
+
+        //Registrando en el inventario
+        ControlInventarioProducto control = new ControlInventarioProducto();
+
+        control.setSalida(salida);
+        control.setFechaMovimiento(LocalDateTime.now());
+        control.setPrecioCompra(detalleUpdate.getPrecioCompra());
+        control.setPrecioVenta(detalleUpdate.getPrecioVenta());
+        control.setMonto(detalleUpdate.getPrecioCompra() * cantidad);
+        control.setCantidad(cantidad);
+        control.setObservacion(motivo);
+        control.setProducto(detalleUpdate.getProducto());
+        control.setUsuario(usuario);
+
+        controlInventarioProductoRepo.save(control);
+
         return this.detalleProductoRepo.save(detalleUpdate);
     }
 

@@ -14,7 +14,7 @@ public interface IDetalleProductoService {
     List<DetalleProducto> getProductosVencidos();
 
     DetalleProducto update(DetalleProducto detalle, Long id);
-    DetalleProducto updateCantidad(DetalleProducto detalle, Long id);
+    DetalleProducto updateCantidad(DetalleProducto detalle, Long id, Long usuarioId);
     List<DetalleProducto> getDetallesByEmpresa(Long empresaId, Boolean estado);
     DetalleProducto getById(Long id);
     List<DetalleProducto> getByProductoId(Long id, Boolean estado);

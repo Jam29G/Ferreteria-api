@@ -60,9 +60,9 @@ public class DetalleProductoController {
         return new ResponseEntity<>(detalleProductoService.create(detalleProducto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/updateCantidad/{id}")
-    public ResponseEntity<DetalleProducto> updateCantidad(@RequestBody() DetalleProducto detalleProducto, @PathVariable("id") Long id) {
-        return new ResponseEntity<>(detalleProductoService.updateCantidad(detalleProducto, id), HttpStatus.OK);
+    @PutMapping("/updateCantidad/{id}/{usuarioId}")
+    public ResponseEntity<DetalleProducto> updateCantidad(@RequestBody() DetalleProducto detalleProducto, @PathVariable("id") Long id, @PathVariable("usuarioId") Long usuarioId) {
+        return new ResponseEntity<>(detalleProductoService.updateCantidad(detalleProducto, id, usuarioId), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
